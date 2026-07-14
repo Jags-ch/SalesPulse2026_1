@@ -1,0 +1,21 @@
+{
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.emcallback",
+      "description": "Enterprise-Messaging Callback Access",
+      "grant-as-authority-to-apps": [
+        "$XSSERVICENAME(SalesPulse2026_1-messaging)"
+      ]
+    },
+    {
+      "name": "$XSAPPNAME.emmanagement",
+      "description": "Enterprise-Messaging Management Access"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [],
+  "authorities": [
+    "$XSAPPNAME.emmanagement",
+    "$XSAPPNAME.mtcallback"
+  ]
+}

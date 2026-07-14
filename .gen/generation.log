@@ -1,0 +1,40 @@
+Starting CAP Project Generator...
+Using @sap/cds-dk [9.9.1] from /extbin/globals/bun/global/install/node_modules/@sap/cds-dk
+Using @sap/generator-cap-project [2.0.6] from [/extbin/globals/bun/global/install/node_modules/@sap/generator-cap-project]
+Using root path [/home/user/projects]
+
+Creating project with application-logging, approuter, audit-logging, connectivity, destination, enterprise-messaging, hana, html5-repo, mta, nodejs, notifications, portal, tiny-sample, xsuaa
+
+Adding facet: nodejs
+Adding facet: mta
+Adding facet: tiny-sample
+Adding facet: xsuaa
+Adding facet: hana
+Adding facet: approuter
+Adding facet: enterprise-messaging
+Adding facet: connectivity
+Adding facet: destination
+Adding facet: html5-repo
+Adding facet: portal
+Adding facet: application-logging
+Adding facet: audit-logging
+Adding facet: notifications
+
+Successfully initialized CAP project
+Continue with: code SalesPulse2026_1 
+
+
+Installing dependencies...
+
+added 335 packages, and audited 336 packages in 5s
+
+44 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+Finished installing dependencies
+
+Done setting up project SalesPulse2026_1
+Project is ready to use
+

@@ -1,0 +1,181 @@
+_schema-version: 3.3.0
+ID: SalesPulse2026_1
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: SalesPulse2026_1-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: SalesPulse2026_1-auth
+      - name: SalesPulse2026_1-db
+      - name: SalesPulse2026_1-messaging
+      - name: SalesPulse2026_1-connectivity
+      - name: SalesPulse2026_1-destination
+      - name: SalesPulse2026_1-logging
+      - name: SalesPulse2026_1-auditlog
+
+  - name: SalesPulse2026_1-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: SalesPulse2026_1-db
+  - name: SalesPulse2026_1
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: SalesPulse2026_1-auth
+      - name: SalesPulse2026_1-destination
+      - name: SalesPulse2026_1-html5-runtime
+      - name: SalesPulse2026_1-portal
+      - name: SalesPulse2026_1-logging
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+
+  - name: SalesPulse2026_1-app-deployer
+    type: com.sap.application.content
+    path: gen
+    build-parameters:
+      build-result: app/
+      requires:
+    requires:
+      - name: SalesPulse2026_1-auth
+      - name: srv-api
+      - name: SalesPulse2026_1-html5-repo-host
+        parameters:
+          content-target: true
+          config:
+            HTML5Runtime_enabled: true
+
+  - name: SalesPulse2026_1-portal-deployer
+    type: com.sap.application.content
+    path: app/portal
+    requires:
+      - name: SalesPulse2026_1-portal
+        parameters:
+          content-target: true
+          service-key:
+            name: SalesPulse2026_1-portal-key
+            config:
+              content-endpoint: developer
+      - name: SalesPulse2026_1-auth
+      - name: SalesPulse2026_1-html5-repo-host
+      - name: SalesPulse2026_1-app-deployer
+    deployed-after:
+      - SalesPulse2026_1-app-deployer
+  - name: notification-content-deployment
+    type: nodejs
+    path: gen/srv
+    parameters:
+      no-route: true
+      no-start: true
+      memory: 256MB
+      disk-quota: 1GB
+      tasks:
+        - name: notification-content-deployment
+          command: "node node_modules/@cap-js/notifications/lib/content-deployment.js"
+          memory: 256MB
+          disk-quota: 1GB
+    requires:
+      - name: SalesPulse2026_1-destination
+
+resources:
+  - name: SalesPulse2026_1-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: SalesPulse2026_1-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+          redirect-uris:
+            - https://*~{app-api/app-uri}/**
+    requires:
+      - name: app-api
+    processed-after:
+      - SalesPulse2026_1-messaging
+  - name: SalesPulse2026_1-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: SalesPulse2026_1-messaging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: enterprise-messaging
+      service-plan: default
+      path: ./event-mesh.json
+  - name: SalesPulse2026_1-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: SalesPulse2026_1-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+  - name: SalesPulse2026_1-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: SalesPulse2026_1-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+  - name: SalesPulse2026_1-portal
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: portal
+      service-plan: standard
+  - name: SalesPulse2026_1-logging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: standard
+  - name: SalesPulse2026_1-auditlog
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: auditlog
+      service-plan: premium
