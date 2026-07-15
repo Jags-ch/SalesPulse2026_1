@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Annotations Target="salespulse.domain.RevenueRecord" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+  <Annotation Term="UI.HeaderInfo">
+    <Record>
+      <PropertyValue Property="TypeName" String="RevenueRecord"/>
+      <PropertyValue Property="Title" String="Revenue Records"/>
+    </Record>
+  </Annotation>
+</Annotations>

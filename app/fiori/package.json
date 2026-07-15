@@ -1,0 +1,12 @@
+{
+  "name": "salespulse360-fiori",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@ui5/cli": "^3.3.0"
+  },
+  "scripts": {
+    "build": "ui5 build --clean",
+    "start": "ui5 serve --config=ui5.yaml --open ./webapp/index.html"
+  }
+}

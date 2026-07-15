@@ -1,0 +1,70 @@
+{
+  "sap.app": {
+    "id": "salespulse360.app",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "title": "SalesPulse360 Executive Command Center",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/salespulse/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "salespulse360.app.view.App",
+      "type": "XML"
+    },
+    "dependencies": {
+      "minUI5Version": "1.110.0",
+      "libs": {
+        "sap.f": {},
+        "sap.m": {},
+        "sap.ui.comp": {},
+        "sap.ui.table": {},
+        "sap.viz": {}
+      }
+    },
+    "models": {
+      "mainService": {
+        "dataSource": "mainService",
+        "type": "sap.ui.model.odata.v4.ODataModel"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "salespulse360.app.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "Dashboard",
+          "target": "Dashboard"
+        }
+      ],
+      "targets": {
+        "Dashboard": {
+          "viewName": "Dashboard"
+        }
+      }
+    }
+  },
+  "sap.cloud": {
+    "service": "salespulse360"
+  }
+}

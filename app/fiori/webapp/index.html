@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SalesPulse360</title>
+        <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+            data-sap-ui-theme="sap_fiori_3" data-sap-ui-resourceroots='{"salespulse360.app":"./"}' data-sap-ui-preload="off" data-sap-ui-compatVersion="edge">
+    </script>
+    <script>
+      (function(){
+        function start() {
+          try {
+            sap.ui.getCore().attachInit(function () {
+              new sap.ui.core.ComponentContainer({
+                name: "salespulse360.app",
+                settings: { id: "salespulse360" },
+                async: true
+              }).placeAt("content");
+            });
+          } catch (e) {
+            console.error('UI5 init failed', e);
+          }
+        }
+        if (window.sap && window.sap.ui) {
+          start();
+        } else {
+          var scr = document.getElementById('sap-ui-bootstrap');
+          scr.addEventListener ? scr.addEventListener('load', start) : scr.onload = start;
+          scr.addEventListener && scr.addEventListener('error', function(){ console.error('Failed to load UI5 bootstrap'); });
+        }
+      })();
+    </script>
+  </head>
+  <body class="sapUiBody" id="content"></body>
+</html>

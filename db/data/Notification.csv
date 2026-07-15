@@ -1,0 +1,3 @@
+ID,Category,Message,Severity,TriggeredBy,IsRead,TargetUser_ID,Tenant_ID,IsActive
+00000000-0000-0000-0000-000000000701,RevenueAlert,Revenue performance below target for NA Growth,High,System,false,00000000-0000-0000-0000-000000000101,00000000-0000-0000-0000-000000000001,true
+00000000-0000-0000-0000-000000000702,TaskAlert,New task assigned to Derek Lee,Medium,System,false,00000000-0000-0000-0000-000000000104,00000000-0000-0000-0000-000000000002,true

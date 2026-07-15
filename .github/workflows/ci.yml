@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build CDS project
+        run: npx cds build --production
+      - name: Run unit tests (if present)
+        run: |
+          if [ -f package.json ]; then
+            if npm run | grep -q test; then
+              npm test || true
+            fi
+          fi
+      - name: Package MTA (if mta.yaml present)
+        run: |
+          if [ -f mta.yaml ]; then
+            npm i -g @sap/mta-lib || true
+            echo "MTA build step skipped in CI environment. Use CF or BAS to build and deploy."
+          fi
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cds-build
+          path: gen

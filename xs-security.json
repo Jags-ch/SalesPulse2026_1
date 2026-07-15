@@ -1,4 +1,6 @@
 {
+  "xsappname": "SalesPulse2026_1",
+  "tenant-mode": "dedicated",
   "scopes": [
     {
       "name": "$XSAPPNAME.emcallback",
@@ -13,7 +15,30 @@
     }
   ],
   "attributes": [],
-  "role-templates": [],
+  "role-templates": [
+    {
+      "name": "Administrator",
+      "description": "SalesPulse360 Administrator",
+      "scope-references": [
+        "$XSAPPNAME.emmanagement"
+      ]
+    },
+    {
+      "name": "SalesManager",
+      "description": "Sales Manager Role",
+      "scope-references": []
+    },
+    {
+      "name": "SalesExecutive",
+      "description": "Sales Executive Role",
+      "scope-references": []
+    },
+    {
+      "name": "CEO",
+      "description": "CEO Role",
+      "scope-references": []
+    }
+  ],
   "authorities": [
     "$XSAPPNAME.emmanagement",
     "$XSAPPNAME.mtcallback"

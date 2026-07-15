@@ -1,0 +1,36 @@
+specVersion: "2.5"
+metadata:
+  name: salespulse360-fiori
+
+type: application
+
+builder:
+  resources:
+    excludes:
+      - "**/test/**"
+
+framework:
+  name: SAPUI5
+  version: "1.110.0"
+  libraries:
+    - sap.m
+    - sap.ui.core
+    - sap.f
+    - sap.ui.comp
+    - sap.ui.table
+    - sap.ui.layout
+    - sap.ui.unified
+
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        backend:
+          baseUri: "/salespulse"
+          pathReplacements:
+            - source: "^/salespulse"
+              target: "/salespulse"
+
+paths:
+  webapp: webapp

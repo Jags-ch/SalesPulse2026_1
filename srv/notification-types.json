@@ -1,0 +1,30 @@
+[
+  {
+    "NotificationTypeKey": "TaskAlert",
+    "NotificationTypeVersion": "1",
+    "Templates": [
+      {
+        "Language": "en",
+        "TemplatePublic": "Task Alert",
+        "TemplateSensitive": "Task '{{title}}' Alert",
+        "TemplateGrouped": "Task Notifications",
+        "TemplateLanguage": "mustache",
+        "Subtitle": "A task requires your attention"
+      }
+    ]
+  },
+  {
+    "NotificationTypeKey": "GoalAlert",
+    "NotificationTypeVersion": "1",
+    "Templates": [
+      {
+        "Language": "en",
+        "TemplatePublic": "Goal Alert",
+        "TemplateSensitive": "Goal '{{title}}' Alert",
+        "TemplateGrouped": "Goal Notifications",
+        "TemplateLanguage": "mustache",
+        "Subtitle": "A goal has changed status"
+      }
+    ]
+  }
+]
