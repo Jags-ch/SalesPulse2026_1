@@ -12,7 +12,7 @@ builder:
 framework:
   name: SAPUI5
   version: "1.110.0"
-  libraries:
+  libraries :
     - sap.m
     - sap.ui.core
     - sap.f
